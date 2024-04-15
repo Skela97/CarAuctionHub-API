@@ -1,0 +1,62 @@
+using System.Text.Json.Serialization;
+using AuctionService.Application;
+using AuctionService.Infrastructure;
+using AuctionService.Infrastructure.EntityFramework;
+using AuctionService.Infrastructure.EntityFramework.Initializer;
+using AuctionService.Presentation.Validators;
+using FluentValidation;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
+
+builder.Services.AddValidatorsFromAssemblyContaining<CreateAuctionValidator>();
+
+builder.Services.AddDbContext<AuctionDbContext>(opt =>
+{
+    opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+
+//Add application logic dependencies.
+builder.Services.AddApplicationDependencies();
+
+//Add infrastructural dependencies.
+builder.Services.AddInfrastructuralDependencies();
+
+builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "CarAuctionHub", Version = "v1" });
+});
+
+WebApplication app = builder.Build();
+
+// Configure the HTTP request middlewares
+app.UseAuthorization();
+app.MapControllers();
+
+// Enable middleware to serve generated Swagger as a JSON endpoint.
+app.UseSwagger();
+
+// Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),specifying the Swagger JSON endpoint
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "CarAuctionHub V1");
+});
+
+//Running the migrations and populating the data.
+try
+{
+    DbInitializer.InitDb(app);
+}
+catch (Exception e)
+{
+    Console.WriteLine(e);
+}
+
+app.Run();
