@@ -16,7 +16,7 @@ public class UpdateAuctionUseCase : IUseCase<UpdateAuctionRequest, UpdateAuction
         _repository = repository;
     }
 
-    public async Task<UpdateAuctionResponse> Execute(UpdateAuctionRequest request)
+    public async Task<UpdateAuctionResponse> ExecuteAsync(UpdateAuctionRequest request)
     {
         Auction auction = await _repository.GetByIdAsync(request.Id!.Value);
         if (auction == null) throw new AuctionNotFoundException();

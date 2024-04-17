@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuctionService", "AuctionService\AuctionService.csproj", "{3743180A-4F75-4948-B5D9-5AAD7D2271CD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SearchService", "SearchService\SearchService.csproj", "{410CD5CE-8F8C-4A49-A44D-A88504AC469A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{3743180A-4F75-4948-B5D9-5AAD7D2271CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3743180A-4F75-4948-B5D9-5AAD7D2271CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3743180A-4F75-4948-B5D9-5AAD7D2271CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{410CD5CE-8F8C-4A49-A44D-A88504AC469A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{410CD5CE-8F8C-4A49-A44D-A88504AC469A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{410CD5CE-8F8C-4A49-A44D-A88504AC469A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{410CD5CE-8F8C-4A49-A44D-A88504AC469A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

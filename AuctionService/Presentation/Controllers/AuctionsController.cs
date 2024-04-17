@@ -20,7 +20,7 @@ public class AuctionsController : ControllerBase
     public async Task<IEnumerable<AuctionViewModel>> GetAllAuctions(
         [FromServices] IUseCase<GetAllAuctionsRequest,GetAllAuctionsResponse> useCase)
     {
-        GetAllAuctionsResponse response = await useCase.Execute(new GetAllAuctionsRequest());
+        GetAllAuctionsResponse response = await useCase.ExecuteAsync(new GetAllAuctionsRequest());
 
         return AuctionMapper.MapAuctionsResponse(response.Auctions);
     }
@@ -31,7 +31,7 @@ public class AuctionsController : ControllerBase
         [FromServices] IUseCase<GetAuctionRequest,GetAuctionResponse> useCase,
         [FromRoute] Guid id)
     {
-        GetAuctionResponse response= await useCase.Execute(new GetAuctionRequest(id));
+        GetAuctionResponse response= await useCase.ExecuteAsync(new GetAuctionRequest(id));
 
         return AuctionMapper.MapAuctionResponse(response.Auction);
     }
@@ -41,7 +41,7 @@ public class AuctionsController : ControllerBase
         [FromBody] CreateAuctionRequest request,
         [FromServices] IUseCase<CreateAuctionRequest,CreateAuctionResponse> useCase)
     {
-        await useCase.Execute(request);
+        await useCase.ExecuteAsync(request);
     }
     
     [HttpPut]
@@ -51,7 +51,7 @@ public class AuctionsController : ControllerBase
         [FromServices] IUseCase<UpdateAuctionRequest, UpdateAuctionResponse> useCase,
         [FromRoute] Guid id)
     {
-        await useCase.Execute(request.AppendWithId(id));
+        await useCase.ExecuteAsync(request.AppendWithId(id));
     }
     
     [HttpDelete]
@@ -60,6 +60,6 @@ public class AuctionsController : ControllerBase
         [FromServices] IUseCase<DeleteAuctionRequest, DeleteAuctionResponse> useCase,
         [FromRoute] Guid id)
     {
-        await useCase.Execute(new DeleteAuctionRequest(id));
+        await useCase.ExecuteAsync(new DeleteAuctionRequest(id));
     }
 }

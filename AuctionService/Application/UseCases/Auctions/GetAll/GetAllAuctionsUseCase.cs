@@ -12,7 +12,7 @@ public class GetAllAuctionsUseCase : IUseCase<GetAllAuctionsRequest, GetAllAucti
         _repository = repository;
     }
 
-    public async Task<GetAllAuctionsResponse> Execute(GetAllAuctionsRequest request)
+    public async Task<GetAllAuctionsResponse> ExecuteAsync(GetAllAuctionsRequest request)
     {
         return new GetAllAuctionsResponse(await _repository.GetAllAsync());
     }

@@ -17,7 +17,7 @@ public class CreateAuctionUseCase : IUseCase<CreateAuctionRequest, CreateAuction
         _unitOfWork = unitOfWork;
     }
     
-    public async Task<CreateAuctionResponse> Execute(CreateAuctionRequest request)
+    public async Task<CreateAuctionResponse> ExecuteAsync(CreateAuctionRequest request)
     {
         await _unitOfWork.BeginTransactionAsync();
         await _repository.AddAsync(Request(request));
@@ -33,7 +33,7 @@ public class CreateAuctionUseCase : IUseCase<CreateAuctionRequest, CreateAuction
             request.ReservePrice,
             RequestItem(request),
             null,
-                null,
+            null,
             null,
             null,
             Status.Live,

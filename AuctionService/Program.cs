@@ -31,7 +31,7 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "CarAuctionHub", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = " CarAuctionHub-AuctionService", Version = "v1" });
 });
 
 WebApplication app = builder.Build();
@@ -46,17 +46,11 @@ app.UseSwagger();
 // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),specifying the Swagger JSON endpoint
 app.UseSwaggerUI(c =>
 {
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "CarAuctionHub V1");
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "CarAuctionHub-AuctionService V1");
 });
 
 //Running the migrations and populating the data.
-try
-{
-    DbInitializer.InitDb(app);
-}
-catch (Exception e)
-{
-    Console.WriteLine(e);
-}
+
+DbInitializer.InitDb(app);
 
 app.Run();

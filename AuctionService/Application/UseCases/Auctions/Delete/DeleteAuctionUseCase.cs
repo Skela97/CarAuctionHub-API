@@ -16,7 +16,7 @@ public class DeleteAuctionUseCase : IUseCase<DeleteAuctionRequest, DeleteAuction
         _repository = repository;
     }
     
-    public async Task<DeleteAuctionResponse> Execute(DeleteAuctionRequest request)
+    public async Task<DeleteAuctionResponse> ExecuteAsync(DeleteAuctionRequest request)
     {
         Auction auction = await _repository.GetByIdAsync(request.Id);
         if (auction == null) throw new AuctionNotFoundException(); 

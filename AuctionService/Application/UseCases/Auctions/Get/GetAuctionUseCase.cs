@@ -14,7 +14,7 @@ public class GetAuctionUseCase : IUseCase<GetAuctionRequest, GetAuctionResponse>
         _repository = repository;
     }
     
-    public async Task<GetAuctionResponse> Execute(GetAuctionRequest request)
+    public async Task<GetAuctionResponse> ExecuteAsync(GetAuctionRequest request)
     {
         Auction auction = await _repository.GetByIdAsync(request.Id);
         if (auction == null) throw new AuctionNotFoundException(); 
