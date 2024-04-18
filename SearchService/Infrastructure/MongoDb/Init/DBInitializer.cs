@@ -28,7 +28,7 @@ public static class DBInitializer
 
     private static async Task<IEnumerable<Item>> GetEntryItems()
     {
-        string itemData = await File.ReadAllTextAsync("Infrastructure/MongoDb/Auctions.json");
+        string itemData = await File.ReadAllTextAsync("Infrastructure/MongoDb/Items.json");
         
         JsonSerializerOptions options = new() { PropertyNameCaseInsensitive = true };
         options.Converters.Add(new JsonStringEnumConverter());
