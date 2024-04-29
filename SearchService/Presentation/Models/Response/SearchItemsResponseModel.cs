@@ -1,9 +1,8 @@
 ﻿using SearchService.Common.Response;
 using SearchService.Domain;
 
-namespace SearchService.Presentation.Models.Response
+namespace SearchService.Presentation.Models.Response;
+
+public class SearchItemsResponseModel : SearchResponse<Auction>
 {
-    public class SearchItemsResponseModel : SearchResponse<Item>
-    {
-    }
 }

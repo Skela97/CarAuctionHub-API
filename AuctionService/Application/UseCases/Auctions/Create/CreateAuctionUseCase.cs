@@ -1,4 +1,5 @@
 ﻿using AuctionService.Application.Contracts;
+using AuctionService.Application.Contracts.Publishers;
 using AuctionService.Common;
 using AuctionService.Common.Interfaces;
 using AuctionService.Domain;
@@ -10,17 +11,26 @@ public class CreateAuctionUseCase : IUseCase<CreateAuctionRequest, CreateAuction
 {
     private readonly IAuctionRepository _repository;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IAuctionPublisher _publisher;
 
-    public CreateAuctionUseCase(IAuctionRepository repository, IUnitOfWork unitOfWork)
+    public CreateAuctionUseCase(
+        IAuctionRepository repository, 
+        IUnitOfWork unitOfWork,
+        IAuctionPublisher publisher)
     {
         _repository = repository;
         _unitOfWork = unitOfWork;
+        _publisher = publisher;
     }
     
     public async Task<CreateAuctionResponse> ExecuteAsync(CreateAuctionRequest request)
     {
         await _unitOfWork.BeginTransactionAsync();
-        await _repository.AddAsync(Request(request));
+
+        Auction auction = Request(request);
+        await _repository.AddAsync(auction);
+        await _publisher.PublishCreatedAsync(auction);
+        
         await _unitOfWork.CommitAsync();
         
         return new CreateAuctionResponse();

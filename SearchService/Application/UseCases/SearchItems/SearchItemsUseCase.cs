@@ -5,9 +5,9 @@ namespace SearchService.Application.UseCases.SearchItems;
 
 public class SearchItemsUseCase : IUseCase<SearchItemsRequest, SearchItemsResponse>
 {
-    private readonly IItemRepository repository;
+    private readonly IAuctionRepository repository;
 
-    public SearchItemsUseCase(IItemRepository repository )
+    public SearchItemsUseCase(IAuctionRepository repository )
     {
         this.repository = repository;
     }

@@ -5,7 +5,6 @@ namespace AuctionService.Presentation.Mapper;
 
 public static class AuctionMapper
 {
-
     public static IEnumerable<AuctionViewModel> MapAuctionsResponse(IEnumerable<Auction> auctions)
     {
         return auctions.Select(MapAuctionResponse);

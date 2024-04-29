@@ -13,26 +13,26 @@ public static class DBInitializer
     {
         await DB.InitAsync("SearchDb", MongoClientSettings.FromConnectionString(connectionString));
 
-        long count = await DB.CountAsync<Item>();
+        long count = await DB.CountAsync<Auction>();
 
         if(count == 0)
         {
             await DB.SaveAsync(await GetEntryItems());
         }
 
-        await DB.Index<Item>()
+        await DB.Index<Auction>()
             .Key(x => x.Make, KeyType.Text)
             .Key(x => x.Model, KeyType.Text)
             .Key(x => x.Color, KeyType.Text).CreateAsync();
     }
 
-    private static async Task<IEnumerable<Item>> GetEntryItems()
+    private static async Task<IEnumerable<Auction>> GetEntryItems()
     {
-        string itemData = await File.ReadAllTextAsync("Infrastructure/MongoDb/Items.json");
+        string itemData = await File.ReadAllTextAsync("Infrastructure/MongoDb/Init/Auctions.json");
         
         JsonSerializerOptions options = new() { PropertyNameCaseInsensitive = true };
         options.Converters.Add(new JsonStringEnumConverter());
   
-        return JsonSerializer.Deserialize<IEnumerable<Item>>(itemData, options) ?? throw new IncorrectInitializationInputException();
+        return JsonSerializer.Deserialize<IEnumerable<Auction>>(itemData, options) ?? throw new IncorrectInitializationInputException();
     }
 }

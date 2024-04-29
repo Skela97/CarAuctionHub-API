@@ -6,26 +6,49 @@ using SearchService.Domain;
 
 namespace SearchService.Infrastructure.MongoDb.Repositories;
 
-public class ItemRepository : IItemRepository
+public class AuctionRepository : IAuctionRepository
 {
     private const string CREATED_AT_COLUMN_NAME = "CreatedAt";
     private const string MAKE_COLUMN_NAME = "Make";
 
     public async Task<SearchItemsResponse> SearchItemsAsync(SearchItemsRequest request)
     {
-        PagedSearch<Item> query = DB.PagedSearch<Item>();
+        PagedSearch<Auction> query = DB.PagedSearch<Auction>();
 
         AddSorting(request, query);
         AddFiltering(request, query);
         AddPagination(request, query);
         AddSearchTermFiltering(request, query);
 
-        (IReadOnlyList<Item> Results, long TotalCount, int PageCount) results =  await query.ExecuteAsync();
+        (IReadOnlyList<Auction> Results, long TotalCount, int PageCount) results =  await query.ExecuteAsync();
 
         return new SearchItemsResponse(results.Results, results.TotalCount);
     }
 
-    private void AddSorting(SearchItemsRequest request, PagedSearch<Item> query)
+    public async Task<Auction?> GetAsync(Guid id)
+    {
+        return await DB.Find<Auction>().OneAsync(id.ToString());
+    }
+
+    public async Task AddAsync(Auction auction)
+    {
+        await auction.SaveAsync();
+    }
+
+    public async Task UpdateAsync(Auction auction)
+    {
+        await DB.Update<Auction>()
+        .MatchID(auction.ID)
+        .ModifyWith(auction)
+        .ExecuteAsync();
+    }
+
+    public async Task DeleteAsync(Auction auction)
+    {
+        await auction.DeleteAsync();
+    }
+
+    private void AddSorting(SearchItemsRequest request, PagedSearch<Auction> query)
     {
         if (string.IsNullOrEmpty(request.SearchColumn))
         {
@@ -66,7 +89,7 @@ public class ItemRepository : IItemRepository
         throw new ColumnNotSupportedException(request.SearchColumn);
     }
 
-    private void AddSearchTermFiltering(SearchItemsRequest request, PagedSearch<Item> query)
+    private void AddSearchTermFiltering(SearchItemsRequest request, PagedSearch<Auction> query)
     {
         if (!string.IsNullOrEmpty(request.SearchTerm))
         {
@@ -74,7 +97,7 @@ public class ItemRepository : IItemRepository
         }
     }
 
-    private void AddFiltering(SearchItemsRequest request, PagedSearch<Item> query)
+    private void AddFiltering(SearchItemsRequest request, PagedSearch<Auction> query)
     {
         if(request?.SearchFilters?.AuctionEndFrom != null)
         {
@@ -97,7 +120,7 @@ public class ItemRepository : IItemRepository
         }
     }
 
-    private void AddPagination(SearchItemsRequest request, PagedSearch<Item> query)
+    private void AddPagination(SearchItemsRequest request, PagedSearch<Auction> query)
     {
         query.PageNumber(request.Page);
         query.PageSize(request.PageSize);

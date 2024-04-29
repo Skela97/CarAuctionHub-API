@@ -3,7 +3,7 @@ using MongoDB.Entities;
 
 namespace SearchService.Domain;
 
-public class Item : Entity
+public class Auction : Entity
 {
     public int ReservePrice { get; private set; }
     public string? Seller { get; private set; }
@@ -21,7 +21,8 @@ public class Item : Entity
     public int Mileage { get; private set; }
     public string ImageUrl { get; private set; }
 
-    public Item(
+    public Auction(
+        Guid id,
         int reservePrice, 
         string? seller,
         string? winner,
@@ -38,6 +39,7 @@ public class Item : Entity
         int mileage, 
         string imageUrl)
     {
+        ID = id.ToString();
         ReservePrice = reservePrice;
         Seller = seller;
         Winner = winner;
@@ -53,5 +55,14 @@ public class Item : Entity
         Color = color;
         Mileage = mileage;
         ImageUrl = imageUrl;
+    }
+
+    public void Update(string make, string model, int year, string color, int mileage)
+    {
+       Make = make;
+       Model = model;
+       Year = year;
+       Color = color;
+       Mileage = mileage;
     }
 }

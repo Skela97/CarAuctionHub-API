@@ -18,9 +18,9 @@ public class AuctionRepository : IAuctionRepository
         return await _context.Auctions.Include(a=>a.Item).ToListAsync();
     }
     
-    public async Task<Auction> GetByIdAsync(Guid id)
+    public async Task<Auction?> GetByIdAsync(Guid id)
     {
-        return await _context.Auctions.Where(a => a.Id == id).Include(a=>a.Item).FirstAsync();
+        return await _context.Auctions.Where(a => a.Id == id).Include(a=>a.Item).FirstOrDefaultAsync();
     }
 
     public async Task AddAsync(Auction auction)

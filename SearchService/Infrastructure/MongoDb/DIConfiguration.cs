@@ -7,7 +7,7 @@ public static class DIConfiguration
 {
     public static IServiceCollection AddMongoDbDependencies(this IServiceCollection services)
     {
-        return services.AddTransient<IItemRepository,ItemRepository>();
+        return services.AddTransient<IAuctionRepository,AuctionRepository>();
     }
 }
 
