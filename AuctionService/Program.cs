@@ -5,6 +5,7 @@ using AuctionService.Infrastructure.EntityFramework;
 using AuctionService.Infrastructure.EntityFramework.Initializer;
 using AuctionService.Presentation.Validators;
 using FluentValidation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -13,6 +14,15 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 });
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.Authority = builder.Configuration["IdentityServiceUrl"];
+        options.RequireHttpsMetadata = false;
+        options.TokenValidationParameters.ValidateAudience = false;
+        options.TokenValidationParameters.NameClaimType = "username";
+    });
 
 builder.Services.AddValidatorsFromAssemblyContaining<CreateAuctionValidator>();
 
@@ -23,7 +33,6 @@ builder.Services.AddDbContext<AuctionDbContext>(opt =>
 
 //Add application logic dependencies.
 builder.Services.AddApplicationDependencies();
-
 //Add infrastructural dependencies.
 builder.Services.AddInfrastructuralDependencies();
 
@@ -37,6 +46,7 @@ builder.Services.AddSwaggerGen(c =>
 WebApplication app = builder.Build();
 
 // Configure the HTTP request middlewares
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 

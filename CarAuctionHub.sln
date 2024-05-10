@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{D19E8D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Contracts\Common.csproj", "{335C084E-DFF9-4C96-8BF3-35486FFE1DBD}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityService", "IdentityService\IdentityService.csproj", "{B75F74E7-2B1E-452B-A9B4-6882BDA0108E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,10 @@ Global
 		{335C084E-DFF9-4C96-8BF3-35486FFE1DBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{335C084E-DFF9-4C96-8BF3-35486FFE1DBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{335C084E-DFF9-4C96-8BF3-35486FFE1DBD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B75F74E7-2B1E-452B-A9B4-6882BDA0108E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B75F74E7-2B1E-452B-A9B4-6882BDA0108E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B75F74E7-2B1E-452B-A9B4-6882BDA0108E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B75F74E7-2B1E-452B-A9B4-6882BDA0108E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

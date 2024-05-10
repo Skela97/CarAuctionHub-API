@@ -4,8 +4,11 @@ public class DeleteAuctionRequest
 {
     public Guid Id { get; set; }
 
-    public DeleteAuctionRequest(Guid id)
+    public string? Seller { get; set; }
+
+    public DeleteAuctionRequest(Guid id, string? seller)
     {
         Id = id;
+        Seller = seller;    
     }
 }

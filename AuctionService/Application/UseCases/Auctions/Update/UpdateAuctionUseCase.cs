@@ -27,13 +27,23 @@ public class UpdateAuctionUseCase : IUseCase<UpdateAuctionRequest, UpdateAuction
     {
         Auction? auction = await _repository.GetByIdAsync(request.Id!.Value);
         if (auction == null) throw new AuctionNotFoundException();
-        
+
+        ValidateSeller(auction, request);
+
         await _unitOfWork.BeginTransactionAsync();
-        auction.Update(request.Make,request.Model,request.Year,request.Color, request.Mileage);
+        auction.Update(request.Make, request.Model, request.Year, request.Color, request.Mileage);
         await _publisher.PublishUpdatedAsync(auction);
 
         await _unitOfWork.CommitAsync();
-        
+
         return new UpdateAuctionResponse();
+    }
+
+    private void ValidateSeller(Auction auction, UpdateAuctionRequest request)
+    {
+        if (auction.Seller != request.Seller)
+        {
+            throw new AuctionChangeNotAuthorizedException("The requested seller is not allower to modify this auction.");
+        }
     }
 }

@@ -9,6 +9,8 @@ public class UpdateAuctionRequest
     public string? Color { get; set; }
     public int? Mileage { get; set; }
 
+    public string? Seller { get; set; }
+
     public UpdateAuctionRequest()
     {
     }

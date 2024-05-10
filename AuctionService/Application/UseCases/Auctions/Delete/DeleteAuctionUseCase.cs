@@ -24,14 +24,24 @@ public class DeleteAuctionUseCase : IUseCase<DeleteAuctionRequest, DeleteAuction
     
     public async Task<DeleteAuctionResponse> ExecuteAsync(DeleteAuctionRequest request)
     {
-        Auction auction = await _repository.GetByIdAsync(request.Id);
-        if (auction == null) throw new AuctionNotFoundException(); 
-        
+        Auction? auction = await _repository.GetByIdAsync(request.Id);
+        if (auction == null) throw new AuctionNotFoundException();
+
+        ValidateSeller(auction, request);
+
         await _unitOfWork.BeginTransactionAsync();
         await _repository.DeleteAsync(auction);
         await _publisher.PublishDeletedAsync(auction);
         await _unitOfWork.CommitAsync();
 
         return new DeleteAuctionResponse();
+    }
+
+    private void ValidateSeller(Auction auction, DeleteAuctionRequest request)
+    {
+        if (auction.Seller != request.Seller)
+        {
+            throw new AuctionChangeNotAuthorizedException("The requested seller is not allower to modify this auction.");
+        }
     }
 }

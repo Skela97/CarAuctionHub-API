@@ -8,7 +8,9 @@ using AuctionService.Common.Interfaces;
 using AuctionService.Domain;
 using AuctionService.Presentation.Mapper;
 using AuctionService.Presentation.Models.Response;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace AuctionService.Presentation.Controllers;
 
@@ -17,6 +19,7 @@ namespace AuctionService.Presentation.Controllers;
 public class AuctionsController : ControllerBase
 {
     [HttpGet]
+    [Authorize]
     public async Task<IEnumerable<AuctionViewModel>> GetAllAuctions(
         [FromServices] IUseCase<GetAllAuctionsRequest,GetAllAuctionsResponse> useCase)
     {
@@ -27,6 +30,7 @@ public class AuctionsController : ControllerBase
     
     [HttpGet]
     [Route("{id}")]
+    [Authorize]
     public async Task<AuctionViewModel> Get(
         [FromServices] IUseCase<GetAuctionRequest,GetAuctionResponse> useCase,
         [FromRoute] Guid id)
@@ -37,29 +41,39 @@ public class AuctionsController : ControllerBase
     }
     
     [HttpPost]
+    [Authorize]
     public async Task CreateAuction(
         [FromBody] CreateAuctionRequest request,
         [FromServices] IUseCase<CreateAuctionRequest,CreateAuctionResponse> useCase)
     {
-        await useCase.ExecuteAsync(request);
+        await useCase.ExecuteAsync(request.AppendWithSeller(GetSeller()));
     }
     
     [HttpPut]
     [Route("{id}")]
+    [Authorize]
     public async Task UpdateAuction(
         [FromBody] UpdateAuctionRequest request,
         [FromServices] IUseCase<UpdateAuctionRequest, UpdateAuctionResponse> useCase,
         [FromRoute] Guid id)
     {
-        await useCase.ExecuteAsync(request.AppendWithId(id));
+        await useCase.ExecuteAsync(request.AppendWithId(id).AppendWithSeller(GetSeller()));
     }
     
     [HttpDelete]
     [Route("{id}")]
+    [Authorize]
     public async Task DeleteAuction(
         [FromServices] IUseCase<DeleteAuctionRequest, DeleteAuctionResponse> useCase,
         [FromRoute] Guid id)
+    {        
+        await useCase.ExecuteAsync(new DeleteAuctionRequest(id, GetSeller()));
+    }
+
+    private string? GetSeller()
     {
-        await useCase.ExecuteAsync(new DeleteAuctionRequest(id));
+        ClaimsPrincipal user = HttpContext.User;
+        
+        return user.FindFirstValue(ClaimTypes.Name);
     }
 }

@@ -10,4 +10,11 @@ public static class UpdateAuctionRequestExtension
 
         return auctionRequest;
     }
+
+    public static UpdateAuctionRequest AppendWithSeller(this UpdateAuctionRequest auctionRequest, string? seller)
+    {
+        auctionRequest.Seller = seller;
+
+        return auctionRequest;
+    }
 }
