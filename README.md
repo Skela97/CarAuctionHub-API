@@ -4,7 +4,7 @@ This repository contains the code for an auction hub micro-service application d
 
 ## Objective
 
-The primary goal of this project was to gain practical experience with essential building components commonly found in distributed software systems. This included working with gateways, message brokers, Docker, Kubernetes for deployment, identity server for authentication, and implementing CI/CD workflows utilizing GitHub Actions.
+The primary goal of this project was to gain practical experience with essential building components commonly found in distributed software systems. This included working with API gateway, message broker, Docker, Kubernetes for deployment, identity server for authentication, and implementing CI/CD workflows utilizing GitHub Actions.
 
 ## Technologies Used
 
