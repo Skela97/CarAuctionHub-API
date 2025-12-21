@@ -1,8 +1,6 @@
 # Auction Hub Application
 
-**This repository hosts the code for the Auction Hub microservice application, built using .NET and Next.js, and integrating a variety of modern infrastructure components.**
-
-This repository contains the code for an auction hub micro-service application developed using **.NET** and **Next.JS**, integrating various infrastructural dependencies.
+This repository contains the code for an auction hub micro-service application developed using **.NET** and **Next.JS** and leveraging a range of modern infrastructural components.
 
 ## Objective
 
